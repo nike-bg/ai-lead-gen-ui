@@ -73,8 +73,8 @@ def is_valid_email(email):
 
 # --- Login ---
 if not st.session_state.logged_in:
-    # Centrar el título "Login"
-    st.markdown(f"<h1 style='text-align: center;'>{text['login_button']}</h1>", unsafe_allow_html=True)
+    # Centrar la imagen del logo en lugar del título "Login"
+    st.image('https://raw.githubusercontent.com/nike-bg/ai-lead-gen-ui/main/fastforward_ai_logo.jpeg', use_column_width=True)
 
     # Centrar el formulario de login y darle espacio
     login_center = st.columns([1, 3, 1])  # Tres columnas, donde la del medio tiene más espacio
