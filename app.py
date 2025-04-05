@@ -62,17 +62,17 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# Estilo para eliminar bordes solo de botones de banderas
+# Estilo solo para los botones de las banderas
 st.markdown("""
     <style>
-    div[data-testid="column"] button[kind="secondary"] {
+    .lang-flag button {
         border: none !important;
         background-color: transparent !important;
         box-shadow: none !important;
         padding: 0 !important;
         margin: 0 !important;
     }
-    div[data-testid="column"] button:focus {
+    .lang-flag button:focus {
         outline: none !important;
     }
     </style>
@@ -81,13 +81,19 @@ st.markdown("""
 # Banderas como botones Streamlit (sin recarga de página ni logout)
 col1, col2, _ = st.columns([0.05, 0.05, 0.9])
 with col1:
-    if st.button("🇪🇸", key="lang_es"):
-        st.session_state.lang = "es"
-        st.rerun()
+    with st.container():
+        st.markdown('<div class="lang-flag">', unsafe_allow_html=True)
+        if st.button("🇪🇸", key="lang_es"):
+            st.session_state.lang = "es"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 with col2:
-    if st.button("🇬🇧", key="lang_en"):
-        st.session_state.lang = "en"
-        st.rerun()
+    with st.container():
+        st.markdown('<div class="lang-flag">', unsafe_allow_html=True)
+        if st.button("🇬🇧", key="lang_en"):
+            st.session_state.lang = "en"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
 lang = st.session_state.lang
 
