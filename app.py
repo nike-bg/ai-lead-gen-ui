@@ -76,11 +76,11 @@ if st.session_state.logged_in:
         else:
             st.warning("Por favor, completá todos los campos.")
 
-    # --- Botón de logout abajo a la derecha ---
+    # --- Botón de logout abajo a la derecha, en una línea ---
     st.markdown("---")
-    logout_col1, logout_col2, logout_col3 = st.columns([6, 1, 1])
-    with logout_col3:
-        if st.button("Cerrar sesión 🔒"):
+    spacer1, spacer2, col_button = st.columns([6, 1, 1])
+    with col_button:
+        if st.button("🔒 Cerrar sesión"):
             st.session_state.logged_in = False
             st.session_state.username = ""
             st.rerun()
