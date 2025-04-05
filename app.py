@@ -62,41 +62,37 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# --- Estilo limpio: solo banderas ---
+# Banderas sin bordes con HTML
 st.markdown("""
     <style>
-    .flag-button {
-        background: transparent !important;
-        border: none !important;
-        font-size: 24px !important;
-        padding: 0 !important;
-        margin-right: 10px;
-        box-shadow: none !important;
+    .lang-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 1em;
     }
-    .flag-button:hover {
-        transform: scale(1.1);
+    .lang-flag {
+        font-size: 24px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
     }
-    button[title="Submit"] {
-        all: unset !important;
+    .lang-flag:hover {
+        transform: scale(1.2);
     }
     </style>
+    <div class="lang-container">
+        <span class="lang-flag" onclick="window.location.search='?lang=es'">🇪🇸</span>
+        <span class="lang-flag" onclick="window.location.search='?lang=en'">🇬🇧</span>
+    </div>
 """, unsafe_allow_html=True)
 
-# Banderas alineadas bien a la izquierda
-with st.container():
-    col1, col2, _ = st.columns([0.05, 0.05, 0.9])
-    with col1:
-        if st.button("🇪🇸", key="es", help="Español"):
-            st.session_state.lang = "es"
-            st.rerun()
-    with col2:
-        if st.button("🇬🇧", key="en", help="English"):
-            st.session_state.lang = "en"
-            st.rerun()
+if "lang" in st.query_params:
+    st.session_state.lang = st.query_params["lang"]
+    st.query_params.clear()
+    st.rerun()
 
 lang = st.session_state.lang
 
-# --- LOGIN ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "username" not in st.session_state:
@@ -122,18 +118,44 @@ if not st.session_state.logged_in:
         st.session_state.set_login = False
         st.rerun()
 
-# --- APP PRINCIPAL ---
 if st.session_state.logged_in:
     capitalized_user = st.session_state.username.capitalize()
 
     st.markdown(f"""
-    <div style='text-align: right; font-size: 1em; color: #facc15; font-weight: 500; margin-bottom: 1em;'>
-        {T[lang]["welcome"]} <b>{capitalized_user}</b>
+    <style>
+    @keyframes fadeIn {{
+      from {{ opacity: 0; transform: translateY(-10px); }}
+      to {{ opacity: 1; transform: translateY(0); }}
+    }}
+
+    @keyframes pulse {{
+      0% {{ transform: scale(1); }}
+      50% {{ transform: scale(1.15); }}
+      100% {{ transform: scale(1); }}
+    }}
+
+    .welcome {{
+        animation: fadeIn 1s ease-out forwards;
+        text-align: right;
+        font-size: 1em;
+        font-weight: 500;
+        margin-bottom: 1em;
+        color: #facc15;
+    }}
+
+    .welcome .icon {{
+        display: inline-block;
+        animation: pulse 1.5s infinite;
+        margin-right: 4px;
+    }}
+    </style>
+
+    <div class="welcome">
+        <span class="icon">⚡</span>{T[lang]["welcome"]} <b>{capitalized_user}</b>
     </div>
     """, unsafe_allow_html=True)
 
     st.title(T[lang]["title"])
-
     st.subheader(T[lang]["subtitle"])
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -144,16 +166,13 @@ if st.session_state.logged_in:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown(
-        """
+    st.markdown("""
         <style>
         div.stButton > button {
             width: 100%;
         }
         </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """, unsafe_allow_html=True)
 
     if st.button(T[lang]["start"]):
         if session_cookie and search_url and notify_email:
@@ -167,7 +186,6 @@ if st.session_state.logged_in:
             }
 
             try:
-                # ⚠️ Reemplazá con tu webhook real
                 response = requests.post("https://TU_WEBHOOK_N8N.com/webhook/lead-scraper", json=payload)
                 if response.status_code == 200:
                     st.success(T[lang]["success"])
