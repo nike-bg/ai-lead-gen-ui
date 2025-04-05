@@ -3,7 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# Cargar .env localmente o desde secrets en Streamlit Cloud
+# Cargar variables desde .env o desde secrets en Streamlit Cloud
 load_dotenv()
 
 # Usuarios autorizados desde entorno
@@ -30,10 +30,16 @@ if not st.session_state.logged_in:
 
     if login_button:
         if username in USERS and USERS[username] == password:
-            st.session_state.logged_in = True
             st.session_state.username = username
+            st.session_state.set_login = True  # bandera para forzar rerun seguro
         else:
             st.error("❌ Usuario o contraseña incorrectos.")
+
+    # Usar la bandera para activar login + recarga de pantalla
+    if st.session_state.get("set_login"):
+        st.session_state.logged_in = True
+        st.session_state.set_login = False
+        st.rerun()
 
 # --- APP PRINCIPAL ---
 if st.session_state.logged_in:
@@ -59,7 +65,7 @@ if st.session_state.logged_in:
             }
 
             try:
-                # ⚠️ Reemplazá esta URL por tu webhook real
+                # ⚠️ Reemplazá con tu webhook real
                 response = requests.post("https://TU_WEBHOOK_N8N.com/webhook/lead-scraper", json=payload)
                 if response.status_code == 200:
                     st.success("✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.")
