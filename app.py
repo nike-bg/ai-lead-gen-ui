@@ -208,11 +208,11 @@ else:
         st.success("Logout successful!")
         st.rerun()  # Recargar la página para reflejar el estado de desconexión
 
-    # Aplicar estilo para posicionar el botón a la derecha y un poco más abajo
+    # Aplicar estilo para posicionar el botón de logout a la derecha y un poco más abajo sin solaparse
     st.markdown("""
         <style>
             .stButton > button {
-                position: absolute;
+                position: fixed;
                 right: 20px;
                 bottom: 30px;
                 font-size: 16px;
