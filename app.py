@@ -3,7 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# Cargar variables desde .env o desde secrets en Streamlit Cloud
+# Cargar .env localmente o desde secrets en Streamlit Cloud
 load_dotenv()
 
 # Usuarios autorizados desde entorno
@@ -14,9 +14,11 @@ USERS = {
 
 st.set_page_config(page_title="AI Lead Gen UI", page_icon="🧠")
 
-# Inicializar estado de sesión si es necesario
+# Inicializar sesión
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
+if "username" not in st.session_state:
+    st.session_state.username = ""
 
 # --- LOGIN ---
 if not st.session_state.logged_in:
@@ -24,18 +26,14 @@ if not st.session_state.logged_in:
     username = st.text_input("Usuario")
     password = st.text_input("Contraseña", type="password")
 
-    if st.button("Ingresar"):
+    login_button = st.button("Ingresar")
+
+    if login_button:
         if username in USERS and USERS[username] == password:
+            st.session_state.logged_in = True
             st.session_state.username = username
-            st.session_state.set_login = True  # bandera para hacer rerun seguro
         else:
             st.error("❌ Usuario o contraseña incorrectos.")
-
-    # Si la bandera de login está activada, hacemos login + rerun
-    if st.session_state.get("set_login"):
-        st.session_state.logged_in = True
-        st.session_state.set_login = False
-        st.experimental_rerun()
 
 # --- APP PRINCIPAL ---
 if st.session_state.logged_in:
