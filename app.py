@@ -73,8 +73,8 @@ def is_valid_email(email):
 
 # --- Login ---
 if not st.session_state.logged_in:
-    # Centrar la imagen del logo en lugar del título "Login"
-    st.image('https://raw.githubusercontent.com/nike-bg/ai-lead-gen-ui/main/fastforward_ai_logo.jpeg', use_container_width=True)
+    # Centrar la imagen del logo en lugar del título "Login" y ajustar el tamaño
+    st.image('https://raw.githubusercontent.com/nike-bg/ai-lead-gen-ui/main/fastforward_ai_logo.jpeg', width=300)  # Establecer el ancho de la imagen a 300px
 
     # Centrar el formulario de login y darle espacio
     login_center = st.columns([1, 3, 1])  # Tres columnas, donde la del medio tiene más espacio
