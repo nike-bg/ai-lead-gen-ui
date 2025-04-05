@@ -80,7 +80,7 @@ if not st.session_state.logged_in:
     st.markdown(f"<h3 style='text-align: center; font-size: 1em; opacity: 0.6; margin-top: 0;'>"
                 f"(Totally Awesome Revenue Source)</h3>", unsafe_allow_html=True)
 
-    # Reducir el espacio entre el título y el subtítulo (usando márgenes en CSS)
+    # Reducir aún más el espacio entre el título y el subtítulo
     st.markdown("<style>h1, h3 { margin: 0; padding: 0; }</style>", unsafe_allow_html=True)
 
     # Centrar el formulario de login y darle espacio
