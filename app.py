@@ -91,7 +91,7 @@ if not st.session_state.logged_in:
                 st.session_state.username = username_input
                 st.session_state.password = password_input
                 st.success("Login successful!")
-                st.experimental_rerun()  # Recargar la página para mostrar el contenido principal
+                st.stop()  # Detener la ejecución y actualizar la interfaz
             else:
                 st.error(text["login_error"])
 else:
