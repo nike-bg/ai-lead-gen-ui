@@ -158,8 +158,7 @@ with center[1]:
         display: none;
     }}
 </style>
-<button class='custom-start-btn' onclick=\"document.querySelector('form button[type=submit]').click(); return false;\">{text['start']}</button>
-""", unsafe_allow_html=True)
+<button class='custom-start-btn' onclick=\"document.querySelector('form button[type=submit]').click(); return false;\">{text['start']}</button>""", unsafe_allow_html=True)
 """, unsafe_allow_html=True)
             <button class=\"custom-start-btn\" onclick=\"document.querySelector('button[type=submit]').click(); return false;\">{text["start"]}</button>
         """, unsafe_allow_html=True)
