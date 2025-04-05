@@ -62,6 +62,18 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
+# Estilo para eliminar bordes de los botones de banderas
+st.markdown("""
+    <style>
+    div[data-testid="column"] button[kind="secondary"] {
+        border: none;
+        background: transparent;
+        padding: 0;
+        box-shadow: none;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Banderas como botones Streamlit (sin recarga de página ni logout)
 col1, col2, _ = st.columns([0.05, 0.05, 0.9])
 with col1:
