@@ -18,51 +18,39 @@ USERS = {
 T = {
     "es": {
         "welcome": "Bienvenido,",
-        "title": "🔍 AI-Powered Lead Generator",
-        "subtitle": "📥 Parámetros de búsqueda de leads",
+        "title": "🧠 Generador de Leads con IA",
+        "start": "🚀 Iniciar scraping",
+        "logout": "🚪 Cerrar sesión",
+        "fields_warning": "Por favor, completa todos los campos.",
+        "sending": "Enviando datos al webhook de n8n...",
+        "success": "✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.",
+        "fail": "❌ Falló la conexión:",
         "cookie": "🔐 Cookie de sesión de LinkedIn Sales Navigator",
         "url": "🔗 URL de búsqueda de LinkedIn Sales Navigator",
         "count": "📊 Cantidad de leads a scrapear",
         "email": "📧 Email para recibir los leads",
-        "start": "🚀 Iniciar scraping",
-        "logout": "🔒 Cerrar sesión",
-        "login_title": "🔐 Inicia sesión",
-        "user": "Usuario",
-        "pass": "Contraseña",
-        "login_btn": "Ingresar",
-        "login_error": "❌ Usuario o contraseña incorrectos.",
-        "fields_warning": "Por favor, completá todos los campos.",
-        "sending": "Enviando datos al webhook de n8n...",
-        "success": "✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.",
-        "fail": "❌ Falló la conexión:"
     },
     "en": {
         "welcome": "Welcome,",
-        "title": "🔍 AI-Powered Lead Generator",
-        "subtitle": "📥 Lead search parameters",
+        "title": "🧠 AI-Powered Lead Generator",
+        "start": "🚀 Start scraping",
+        "logout": "🚪 Log out",
+        "fields_warning": "Please complete all fields.",
+        "sending": "Sending data to n8n webhook...",
+        "success": "✅ Scraping started successfully. You’ll get an email once it’s done.",
+        "fail": "❌ Connection failed:",
         "cookie": "🔐 LinkedIn Sales Navigator session cookie",
         "url": "🔗 LinkedIn Sales Navigator search URL",
         "count": "📊 Number of leads to scrape",
         "email": "📧 Email to receive the leads",
-        "start": "🚀 Start scraping",
-        "logout": "🔒 Log out",
-        "login_title": "🔐 Log in",
-        "user": "Username",
-        "pass": "Password",
-        "login_btn": "Log in",
-        "login_error": "❌ Invalid username or password.",
-        "fields_warning": "Please complete all fields.",
-        "sending": "Sending data to n8n webhook...",
-        "success": "✅ Scraping started successfully. You’ll get an email once it’s done.",
-        "fail": "❌ Connection failed:"
-    }
+    },
 }
 
 # Idioma por defecto
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# Estilo solo para los botones de las banderas
+# Estilo solo para los botones de las banderas (sin bordes)
 st.markdown("""
     <style>
     .lang-flag button {
@@ -74,6 +62,11 @@ st.markdown("""
     }
     .lang-flag button:focus {
         outline: none !important;
+    }
+
+    /* Restablecer borde en el botón de iniciar scraping */
+    div.stButton > button {
+        border: 1px solid #444; /* Borde normal para el botón de scraping */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -170,8 +163,7 @@ if st.session_state.logged_in:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown(
-        """
+    st.markdown("""
         <style>
         div.stButton > button {
             width: 100%;
@@ -191,7 +183,8 @@ if st.session_state.logged_in:
             }
 
             try:
-                response = requests.post("https://TU_WEBHOOK_N8N.com/webhook/lead-scraper", json=payload)
+                # URL del Webhook de n8n
+                response = requests.post("https://n8n2.bgroup.com.ar/webhook/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
                 if response.status_code == 200:
                     st.success(T[lang]["success"])
                 else:
