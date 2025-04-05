@@ -160,8 +160,7 @@ with center[1]:
     """, unsafe_allow_html=True)
 
     if st.button(text["start"]):
-        st.session_state["scrape_attempted"] = True
-        if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
+                if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
             payload = {
                 "cookie": cookie,
                 "search_url": search_url,
@@ -173,6 +172,7 @@ with center[1]:
                 if res.status_code == 200:
                     st.toast(text["success"], icon="✅")
                 else:
+        st.session_state["scrape_attempted"] = True
                     st.toast(f"❌ Error {res.status_code}", icon="❌")
             except Exception as e:
                 st.error(f"❌ {str(e)}")
