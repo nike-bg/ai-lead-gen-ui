@@ -73,8 +73,8 @@ def is_valid_email(email):
 
 # --- Login ---
 if not st.session_state.logged_in:
-    # Título "Login" centrado
-    st.markdown(f"<h1 style='text-align: center;'>{text['login_button']}</h1>", unsafe_allow_html=True)
+    # Título personalizado: "I was waiting for you..."
+    st.markdown(f"<h1 style='text-align: center;'>I was waiting for you...</h1>", unsafe_allow_html=True)
 
     # Centrar el formulario de login y darle espacio
     login_center = st.columns([1, 3, 1])  # Tres columnas, donde la del medio tiene más espacio
