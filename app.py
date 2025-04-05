@@ -35,8 +35,8 @@ T = {
         "email": "Email Address",
         "start": "Start Scraping",
         "welcome": "Welcome",
-        "success": "✅ Scraping started successfully. You'll receive an email with the results.",
-        "error": "❌ Please fill in all required fields."
+        "success": "Scraping started successfully. You'll receive an email with the results.",
+        "error": "Please fill in all required fields."
     }
 }
 
