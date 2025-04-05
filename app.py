@@ -12,6 +12,57 @@ USERS = {
     os.getenv("USER_MATI"): os.getenv("PASS_MATI"),
 }
 
+# Traducciones
+T = {
+    "es": {
+        "welcome": "⚡ Bienvenido,",
+        "title": "🔍 AI-Powered Lead Generator",
+        "subtitle": "📥 Parámetros de búsqueda de leads",
+        "cookie": "🔐 Cookie de sesión de LinkedIn Sales Navigator",
+        "url": "🔗 URL de búsqueda de LinkedIn Sales Navigator",
+        "count": "📊 Cantidad de leads a scrapear",
+        "email": "📧 Email para recibir los leads",
+        "start": "🚀 Iniciar scraping",
+        "logout": "🔒 Cerrar sesión",
+        "login_title": "🔐 Inicia sesión",
+        "user": "Usuario",
+        "pass": "Contraseña",
+        "login_btn": "Ingresar",
+        "login_error": "❌ Usuario o contraseña incorrectos.",
+        "fields_warning": "Por favor, completá todos los campos.",
+        "sending": "Enviando datos al webhook de n8n...",
+        "success": "✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.",
+        "fail": "❌ Falló la conexión:"
+    },
+    "en": {
+        "welcome": "⚡ Welcome,",
+        "title": "🔍 AI-Powered Lead Generator",
+        "subtitle": "📥 Lead search parameters",
+        "cookie": "🔐 LinkedIn Sales Navigator session cookie",
+        "url": "🔗 LinkedIn Sales Navigator search URL",
+        "count": "📊 Number of leads to scrape",
+        "email": "📧 Email to receive the leads",
+        "start": "🚀 Start scraping",
+        "logout": "🔒 Log out",
+        "login_title": "🔐 Log in",
+        "user": "Username",
+        "pass": "Password",
+        "login_btn": "Log in",
+        "login_error": "❌ Invalid username or password.",
+        "fields_warning": "Please complete all fields.",
+        "sending": "Sending data to n8n webhook...",
+        "success": "✅ Scraping started successfully. You’ll get an email once it’s done.",
+        "fail": "❌ Connection failed:"
+    }
+}
+
+# Idioma por defecto
+if "lang" not in st.session_state:
+    st.session_state.lang = "es"
+
+lang = st.selectbox("🌐 Idioma / Language", ["es", "en"], index=0 if st.session_state.lang == "es" else 1)
+st.session_state.lang = lang
+
 st.set_page_config(page_title="AI Lead Gen UI", page_icon="🧠")
 
 # Inicializar sesión
@@ -22,19 +73,19 @@ if "username" not in st.session_state:
 
 # --- LOGIN ---
 if not st.session_state.logged_in:
-    st.title("🔐 Inicia sesión")
+    st.title(T[lang]["login_title"])
 
     with st.form("login_form", clear_on_submit=False):
-        username = st.text_input("Usuario")
-        password = st.text_input("Contraseña", type="password")
-        submitted = st.form_submit_button("Ingresar")
+        username = st.text_input(T[lang]["user"])
+        password = st.text_input(T[lang]["pass"], type="password")
+        submitted = st.form_submit_button(T[lang]["login_btn"])
 
     if submitted:
         if username in USERS and USERS[username] == password:
             st.session_state.username = username
             st.session_state.set_login = True
         else:
-            st.error("❌ Usuario o contraseña incorrectos.")
+            st.error(T[lang]["login_error"])
 
     if st.session_state.get("set_login"):
         st.session_state.logged_in = True
@@ -43,28 +94,27 @@ if not st.session_state.logged_in:
 
 # --- APP PRINCIPAL ---
 if st.session_state.logged_in:
-    # Mostrar bienvenida arriba a la derecha con nombre capitalizado
     capitalized_user = st.session_state.username.capitalize()
+
+    # Bienvenida arriba a la derecha
     st.markdown(f"""
     <div style='text-align: right; font-size: 1em; color: #facc15; font-weight: 500; margin-bottom: 1em;'>
-        ⚡ Bienvenido, <b>{capitalized_user}</b>
+        {T[lang]["welcome"]} <b>{capitalized_user}</b>
     </div>
     """, unsafe_allow_html=True)
 
-    st.title("🔍 AI-Powered Lead Generator")
+    st.title(T[lang]["title"])
 
-    st.subheader("📥 Parámetros de búsqueda de leads")
-    st.markdown("<br>", unsafe_allow_html=True)  # ← Espaciado extra para igualar
-
-    session_cookie = st.text_input("🔐 Cookie de sesión de LinkedIn Sales Navigator", type="password")
-    search_url = st.text_input("🔗 URL de búsqueda de LinkedIn Sales Navigator")
-    lead_count = st.number_input("📊 Cantidad de leads a scrapear", min_value=1, max_value=500, value=50)
-    notify_email = st.text_input("📧 Email para recibir los leads")
-
-    # Espaciado visual antes del botón
+    st.subheader(T[lang]["subtitle"])
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Botón ancho y alineado con inputs
+    session_cookie = st.text_input(T[lang]["cookie"], type="password")
+    search_url = st.text_input(T[lang]["url"])
+    lead_count = st.number_input(T[lang]["count"], min_value=1, max_value=500, value=50)
+    notify_email = st.text_input(T[lang]["email"])
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
     st.markdown(
         """
         <style>
@@ -76,9 +126,9 @@ if st.session_state.logged_in:
         unsafe_allow_html=True
     )
 
-    if st.button("🚀 Iniciar scraping"):
+    if st.button(T[lang]["start"]):
         if session_cookie and search_url and notify_email:
-            st.info("Enviando datos al webhook de n8n...")
+            st.info(T[lang]["sending"])
 
             payload = {
                 "cookie": session_cookie,
@@ -91,18 +141,17 @@ if st.session_state.logged_in:
                 # ⚠️ Reemplazá con tu webhook real
                 response = requests.post("https://TU_WEBHOOK_N8N.com/webhook/lead-scraper", json=payload)
                 if response.status_code == 200:
-                    st.success("✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.")
+                    st.success(T[lang]["success"])
                 else:
-                    st.error(f"❌ Error al llamar al webhook. Código {response.status_code}")
+                    st.error(f"❌ Error: {response.status_code}")
             except Exception as e:
-                st.error(f"❌ Falló la conexión: {e}")
+                st.error(f"{T[lang]['fail']} {e}")
         else:
-            st.warning("Por favor, completá todos los campos.")
+            st.warning(T[lang]["fields_warning"])
 
-    # --- Botón de logout abajo a la derecha con HTML estilizado ---
+    # Botón de logout abajo a la derecha
     st.markdown("---", unsafe_allow_html=True)
-    st.markdown(
-        """
+    st.markdown(f"""
         <div style="text-align: right; margin-top: 2em;">
             <form action="?logout=true" method="get">
                 <button type="submit" style="
@@ -114,13 +163,11 @@ if st.session_state.logged_in:
                     border-radius: 6px;
                     cursor: pointer;
                 ">
-                    🔒 Cerrar sesión
+                    {T[lang]["logout"]}
                 </button>
             </form>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    """, unsafe_allow_html=True)
 
     if st.query_params.get("logout") == "true":
         st.session_state.logged_in = False
