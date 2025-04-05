@@ -49,6 +49,9 @@ if "username" not in st.session_state:
     st.session_state.username = "nico"
 
 
+if "scrape_attempted" not in st.session_state:
+    st.session_state["scrape_attempted"] = False
+
 lang = st.session_state.lang
 text = T[lang]
 subtitle = text['subtitle']
