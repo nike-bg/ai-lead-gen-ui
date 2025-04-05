@@ -46,12 +46,6 @@ if st.session_state.logged_in:
     st.title("🔍 AI-Powered Lead Generator")
     st.caption(f"Sesión activa como: {st.session_state.username}")
 
-    # Botón de cerrar sesión
-    if st.button("Cerrar sesión 🔒"):
-        st.session_state.logged_in = False
-        st.session_state.username = ""
-        st.rerun()
-
     st.subheader("📥 Parámetros de búsqueda de leads")
 
     session_cookie = st.text_input("🔐 Cookie de sesión de LinkedIn Sales Navigator", type="password")
@@ -81,3 +75,12 @@ if st.session_state.logged_in:
                 st.error(f"❌ Falló la conexión: {e}")
         else:
             st.warning("Por favor, completá todos los campos.")
+
+    # --- Botón de logout abajo a la derecha ---
+    st.markdown("---")
+    logout_col1, logout_col2, logout_col3 = st.columns([6, 1, 1])
+    with logout_col3:
+        if st.button("Cerrar sesión 🔒"):
+            st.session_state.logged_in = False
+            st.session_state.username = ""
+            st.rerun()
