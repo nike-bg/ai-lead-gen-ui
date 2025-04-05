@@ -163,13 +163,14 @@ else:
                 .custom-start-btn:hover {{
                     background-color: #dc2626;
                 }}
-                .custom-start-btn span {{
+                .custom-start-btn i {{
                     margin-right: 10px;
                 }}
             </style>
         """, unsafe_allow_html=True)
 
-    if st.button(f"<span>🚀</span> {text['start']}", key="start_scraping", help=text["start"], 
+    # Usamos el emoji directamente en lugar del <span>
+    if st.button(f"🚀 {text['start']}", key="start_scraping", help=text["start"], 
                  use_container_width=True, on_click=None):
         if search_url and notify_email and is_valid_email(notify_email) and (cookie or st.session_state.auth_method == "auto"):
             payload = {
