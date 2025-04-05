@@ -53,28 +53,34 @@ if st.session_state.logged_in:
     lead_count = st.number_input("📊 Cantidad de leads a scrapear", min_value=1, max_value=500, value=50)
     notify_email = st.text_input("📧 Email para recibir los leads")
 
-    if st.button("🚀 Iniciar scraping"):
-        if session_cookie and search_url and notify_email:
-            st.info("Enviando datos al webhook de n8n...")
+    # Espacio adicional antes del botón
+    st.markdown("<br>", unsafe_allow_html=True)
 
-            payload = {
-                "cookie": session_cookie,
-                "search_url": search_url,
-                "lead_count": lead_count,
-                "notify_email": notify_email
-            }
+    # Botón alineado con inputs (centrado)
+    col1, col2, col3 = st.columns([0.05, 0.9, 0.05])
+    with col2:
+        if st.button("🚀 Iniciar scraping"):
+            if session_cookie and search_url and notify_email:
+                st.info("Enviando datos al webhook de n8n...")
 
-            try:
-                # ⚠️ Reemplazá con tu webhook real
-                response = requests.post("https://TU_WEBHOOK_N8N.com/webhook/lead-scraper", json=payload)
-                if response.status_code == 200:
-                    st.success("✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.")
-                else:
-                    st.error(f"❌ Error al llamar al webhook. Código {response.status_code}")
-            except Exception as e:
-                st.error(f"❌ Falló la conexión: {e}")
-        else:
-            st.warning("Por favor, completá todos los campos.")
+                payload = {
+                    "cookie": session_cookie,
+                    "search_url": search_url,
+                    "lead_count": lead_count,
+                    "notify_email": notify_email
+                }
+
+                try:
+                    # ⚠️ Reemplazá con tu webhook real
+                    response = requests.post("https://TU_WEBHOOK_N8N.com/webhook/lead-scraper", json=payload)
+                    if response.status_code == 200:
+                        st.success("✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.")
+                    else:
+                        st.error(f"❌ Error al llamar al webhook. Código {response.status_code}")
+                except Exception as e:
+                    st.error(f"❌ Falló la conexión: {e}")
+            else:
+                st.warning("Por favor, completá todos los campos.")
 
     # --- Botón de logout abajo a la derecha con HTML estilizado ---
     st.markdown("---", unsafe_allow_html=True)
@@ -99,7 +105,6 @@ if st.session_state.logged_in:
         unsafe_allow_html=True,
     )
 
-    # Detectar parámetro de logout en la URL
     if st.query_params.get("logout") == "true":
         st.session_state.logged_in = False
         st.session_state.username = ""
