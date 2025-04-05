@@ -74,10 +74,10 @@ def is_valid_email(email):
 # --- Login ---
 if not st.session_state.logged_in:
     # Título personalizado: "TARS" (más grande)
-    st.markdown(f"<h1 style='text-align: center; font-size: 4em; margin-bottom: 0.2em;'>TARS</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center; font-size: 4em; margin-bottom: 0.1em;'>TARS</h1>", unsafe_allow_html=True)
 
     # Subtítulo personalizado: "Totally Awesome Revenue Source" (más chico y con transparencia, entre paréntesis)
-    st.markdown(f"<h3 style='text-align: center; font-size: 1.2em; opacity: 0.6; margin-top: 0.1em;'>"
+    st.markdown(f"<h3 style='text-align: center; font-size: 1.2em; opacity: 0.6; margin-top: 0.05em;'>"
                 f"(Totally Awesome Revenue Source)</h3>", unsafe_allow_html=True)
 
     # Reducir aún más el espacio entre el título y el subtítulo
