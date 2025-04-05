@@ -206,7 +206,7 @@ else:
                     json=payload
                 )
                 if res.status_code == 200:
-                    st.toast(f"{text['start']} - Success", icon="✅")
+                    st.toast("Success", icon="✅")
                     st.session_state["scrape_attempted"] = False
                 else:
                     st.toast(f"❌ Error {res.status_code}", icon="❌")
