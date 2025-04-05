@@ -22,13 +22,14 @@ if "username" not in st.session_state:
 
 # --- LOGIN ---
 if not st.session_state.logged_in:
-    st.title("🔐 Inicia sesión")  # ← Corregido acá
-    username = st.text_input("Usuario")
-    password = st.text_input("Contraseña", type="password")
+    st.title("🔐 Inicia sesión")
 
-    login_button = st.button("Ingresar")
+    with st.form("login_form", clear_on_submit=False):
+        username = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
+        submitted = st.form_submit_button("Ingresar")  # Enter también lo activa
 
-    if login_button:
+    if submitted:
         if username in USERS and USERS[username] == password:
             st.session_state.username = username
             st.session_state.set_login = True
