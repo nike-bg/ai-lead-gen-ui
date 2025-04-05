@@ -17,7 +17,7 @@ USERS = {
 # Traducciones
 T = {
     "es": {
-        "welcome": "⚡ Bienvenido,",
+        "welcome": "Bienvenido,",
         "title": "🔍 AI-Powered Lead Generator",
         "subtitle": "📥 Parámetros de búsqueda de leads",
         "cookie": "🔐 Cookie de sesión de LinkedIn Sales Navigator",
@@ -37,7 +37,7 @@ T = {
         "fail": "❌ Falló la conexión:"
     },
     "en": {
-        "welcome": "⚡ Welcome,",
+        "welcome": "Welcome,",
         "title": "🔍 AI-Powered Lead Generator",
         "subtitle": "📥 Lead search parameters",
         "cookie": "🔐 LinkedIn Sales Navigator session cookie",
@@ -166,7 +166,8 @@ if st.session_state.logged_in:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown("""
+    st.markdown(
+        """
         <style>
         div.stButton > button {
             width: 100%;
