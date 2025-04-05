@@ -78,8 +78,7 @@ if not st.session_state.logged_in:
 
     # Subtítulo personalizado: "Totally Awesome Revenue Seeker" (más chico y con transparencia, entre paréntesis)
     st.markdown(f"<h3 style='text-align: center; font-size: 1.2em; opacity: 0.6; margin-top: 0.05em;'>"
-                f"(Totally Awesome Revenue Seeker
-                )</h3>", unsafe_allow_html=True)
+                f"(Totally Awesome Revenue Seeker)</h3>", unsafe_allow_html=True)
 
     # Reducir aún más el espacio entre el título y el subtítulo
     st.markdown("<style>h1, h3 { margin: 0; padding: 0; }</style>", unsafe_allow_html=True)
