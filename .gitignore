@@ -1,0 +1,26 @@
+# Ignorar entorno virtual
+venv/
+.env
+
+# Archivos de configuración local
+*.env
+*.local
+*.log
+
+# Archivos de Python temporales
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Archivos de VS Code, Jupyter y otros IDEs
+.vscode/
+.ipynb_checkpoints/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de Streamlit cacheados
+.streamlit/config.toml
