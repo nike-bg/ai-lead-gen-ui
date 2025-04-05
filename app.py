@@ -196,7 +196,7 @@ if st.session_state.logged_in:
 
             try:
                 # URL del Webhook de n8n
-                response = requests.post("https://n8n2.bgroup.com.ar/webhook/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
+                response = requests.post("https://n8n2.bgroup.com.ar/webhook-test/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
                 if response.status_code == 200:
                     st.success(T[lang]["success"])
                 else:
