@@ -51,6 +51,7 @@ if "username" not in st.session_state:
 
 lang = st.session_state.lang
 text = T[lang]
+subtitle = text['subtitle']
 
 # --- Estilos ---
 st.markdown("""
@@ -102,7 +103,7 @@ st.markdown(f"<h1 style='margin-top: 1em'>{text['title']}</h1>", unsafe_allow_ht
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
-st.markdown(f"<h4 style='margin-bottom: 0.2em; color: white'>{{text['subtitle']}}</h4>", unsafe_allow_html=True)
+st.markdown(f"<h4 style='margin-bottom: 0.2em; color: white'>{{ subtitle }}</h4>", unsafe_allow_html=True)
 
 # --- Selector método de autenticación ---
 st.radio(text["auth_method"], options=["auto", "manual"], index=1,
