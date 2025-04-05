@@ -54,13 +54,14 @@ if st.session_state.logged_in:
     st.title("🔍 AI-Powered Lead Generator")
 
     st.subheader("📥 Parámetros de búsqueda de leads")
+    st.markdown("<br>", unsafe_allow_html=True)  # ← Espaciado extra para igualar
 
     session_cookie = st.text_input("🔐 Cookie de sesión de LinkedIn Sales Navigator", type="password")
     search_url = st.text_input("🔗 URL de búsqueda de LinkedIn Sales Navigator")
     lead_count = st.number_input("📊 Cantidad de leads a scrapear", min_value=1, max_value=500, value=50)
     notify_email = st.text_input("📧 Email para recibir los leads")
 
-    # Espaciado visual
+    # Espaciado visual antes del botón
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Botón ancho y alineado con inputs
