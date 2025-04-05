@@ -63,8 +63,18 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-lang = st.selectbox("🌐 Idioma / Language", ["es", "en"], index=0 if st.session_state.lang == "es" else 1)
-st.session_state.lang = lang
+# Selector visual de idioma con banderas 🇪🇸 🇬🇧
+col_es, col_en, _ = st.columns([0.08, 0.08, 0.84])
+with col_es:
+    if st.button("🇪🇸", help="Español"):
+        st.session_state.lang = "es"
+        st.rerun()
+with col_en:
+    if st.button("🇬🇧", help="English"):
+        st.session_state.lang = "en"
+        st.rerun()
+
+lang = st.session_state.lang
 
 # Inicializar sesión
 if "logged_in" not in st.session_state:
