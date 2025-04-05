@@ -137,28 +137,29 @@ center = st.columns([0.3, 0.4, 0.3])
 with center[1]:
     with st.form(key="scrape_form"):
         st.markdown(f"""
-    <style>
-        .custom-start-btn {{
-            background-color: #ef4444;
-            border: 1px solid #f87171;
-            border-radius: 8px;
-            color: white;
-            width: 100%;
-            font-weight: bold;
-            padding: 0.75em 0;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            cursor: pointer;
-            font-size: 1rem;
-        }}
-        .custom-start-btn:hover {{
-            background-color: #dc2626;
-        }}
-        button[type=submit] {{
-            display: none;
-        }}
-    </style>
-    <button class='custom-start-btn' onclick=\"document.querySelector('form button[type=submit]').click(); return false;\">{text['start']}</button>
+<style>
+    .custom-start-btn {{
+        background-color: #ef4444;
+        border: 1px solid #f87171;
+        border-radius: 8px;
+        color: white;
+        width: 100%;
+        font-weight: bold;
+        padding: 0.75em 0;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        cursor: pointer;
+        font-size: 1rem;
+    }}
+    .custom-start-btn:hover {{
+        background-color: #dc2626;
+    }}
+    button[type=submit] {{
+        display: none;
+    }}
+</style>
+<button class='custom-start-btn' onclick=\"document.querySelector('form button[type=submit]').click(); return false;\">{text['start']}</button>
+""", unsafe_allow_html=True)
 """, unsafe_allow_html=True)
             <button class=\"custom-start-btn\" onclick=\"document.querySelector('button[type=submit]').click(); return false;\">{text["start"]}</button>
         """, unsafe_allow_html=True)
