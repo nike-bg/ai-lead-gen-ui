@@ -62,7 +62,7 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# Estilo solo para los botones de las banderas (sin bordes)
+# Estilo solo para los botones de las banderas
 st.markdown("""
     <style>
     .lang-flag button {
