@@ -167,13 +167,13 @@ with center[1]:
             try:
                 res = requests.post("https://n8n2.bgroup.com.ar/webhook-test/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
                 if res.status_code == 200:
-                    st.success(text["success"])
+                    st.toast(text["success"], icon="✅")
                 else:
-                    st.error(f"❌ Error {res.status_code}")
+                    st.toast(f"❌ Error {res.status_code}", icon="❌")
             except Exception as e:
                 st.error(f"❌ {str(e)}")
         else:
-            st.warning(text["error"])
+            st.toast(text["error"], icon="⚠️")
     if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
         payload = {
             "cookie": cookie,
