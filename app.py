@@ -17,7 +17,7 @@ T = {
         "auth_method": "Elegí cómo obtener tu cookie de LinkedIn",
         "auto": "Recuperación automática",
         "manual": "Ingreso manual",
-        "cookie": "Pegá tu cookie de sesión de LinkedIn aquí",
+        "cookie": "Pegá tu cookie de sesión de LinkedLinkedIn aquí",
         "url": "URL de búsqueda de Sales Navigator",
         "count": "Cantidad de leads",
         "email": "Dirección de email",
@@ -208,7 +208,7 @@ else:
         st.success("Logout successful!")
         st.rerun()  # Recargar la página para reflejar el estado de desconexión
 
-    # Aplicar estilo para posicionar el botón de logout a la derecha y un poco más abajo sin solaparse
+    # Aplicar estilo para cambiar el color del botón y evitar que sea rojo
     st.markdown("""
         <style>
             .stButton > button {
@@ -217,15 +217,15 @@ else:
                 bottom: 30px;
                 font-size: 16px;
                 font-weight: bold;
-                background-color: #ef4444;
+                background-color: #4CAF50; /* Color verde */
                 color: white;
-                border: 1px solid #f87171;
+                border: 1px solid #388E3C; /* Borde verde más oscuro */
                 border-radius: 8px;
                 padding: 0.75em 2em;
                 transition: background-color 0.3s ease;
             }
             .stButton > button:hover {
-                background-color: #dc2626;
+                background-color: #45a049; /* Verde más oscuro al pasar el ratón */
             }
         </style>
     """, unsafe_allow_html=True)
