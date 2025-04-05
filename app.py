@@ -26,7 +26,8 @@ T = {
         "error_email": "Por favor, ingresa un correo electrónico válido.",
         "error": "Por favor completá todos los campos requeridos.",
         "login_error": "Usuario o contraseña incorrectos.",
-        "logout": "Cerrar sesión"
+        "logout": "Cerrar sesión",
+        "login_button": "Login"
     },
     "en": {
         "title": "LinkedIn Sales Navigator Scraper",
@@ -43,7 +44,8 @@ T = {
         "error_email": "Please enter a valid email address.",
         "error": "Please fill in all required fields.",
         "login_error": "Incorrect username or password.",
-        "logout": "Logout"
+        "logout": "Logout",
+        "login_button": "Login"
     }
 }
 
@@ -71,9 +73,10 @@ def is_valid_email(email):
 
 # --- Login ---
 if not st.session_state.logged_in:
-    st.header("Login")
+    # Centrar el título "Login"
+    st.markdown(f"<h1 style='text-align: center;'>{text['login_button']}</h1>", unsafe_allow_html=True)
 
-    # Centrar el formulario de login
+    # Centrar el formulario de login y darle espacio
     login_center = st.columns([1, 3, 1])  # Tres columnas, donde la del medio tiene más espacio
     with login_center[1]:
         # Crear campos de entrada para el formulario de login
@@ -99,8 +102,11 @@ if not st.session_state.logged_in:
             else:
                 st.error(text["login_error"])
 
-        # Botón de login (para casos donde el usuario haga clic)
-        login_button = st.button(f"🚀 {text['start']}", key="login_button", help=text["start"], use_container_width=True)
+        # Agregar un margen superior al botón de login
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Botón de login (cambiar texto a "Login")
+        login_button = st.button(f"{text['login_button']}", key="login_button", help=text["login_button"], use_container_width=True)
         if login_button:  # Si se hace clic en el botón, ejecutar la misma lógica de login
             if (username_input == user_nico and password_input == pass_nico) or \
                (username_input == user_mati and password_input == pass_mati):
