@@ -62,35 +62,16 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# Banderas sin bordes con HTML usando <a href target="_self"> para evitar nueva pestaña
-st.markdown("""
-    <style>
-    .lang-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 1em;
-    }
-    .lang-flag {
-        font-size: 24px;
-        text-decoration: none;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-    }
-    .lang-flag:hover {
-        transform: scale(1.2);
-    }
-    </style>
-    <div class="lang-container">
-        <a class="lang-flag" href="?lang=es" target="_self">🇪🇸</a>
-        <a class="lang-flag" href="?lang=en" target="_self">🇬🇧</a>
-    </div>
-""", unsafe_allow_html=True)
-
-if "lang" in st.query_params:
-    st.session_state.lang = st.query_params["lang"]
-    st.query_params.clear()
-    st.rerun()
+# Banderas como botones Streamlit (sin recarga de página ni logout)
+col1, col2, _ = st.columns([0.05, 0.05, 0.9])
+with col1:
+    if st.button("🇪🇸", key="lang_es"):
+        st.session_state.lang = "es"
+        st.rerun()
+with col2:
+    if st.button("🇬🇧", key="lang_en"):
+        st.session_state.lang = "en"
+        st.rerun()
 
 lang = st.session_state.lang
 
