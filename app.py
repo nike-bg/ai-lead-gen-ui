@@ -174,6 +174,7 @@ if st.button(text["start"]):
             )
             if res.status_code == 200:
                 st.toast(text["success"], icon="✅")
+                st.session_state["scrape_attempted"] = False  # ← esta línea es la clave
             else:
                 st.toast(f"❌ Error {res.status_code}", icon="❌")
         except Exception as e:
