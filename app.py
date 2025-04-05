@@ -135,35 +135,45 @@ st.markdown("<br>", unsafe_allow_html=True)
 # --- Botón de enviar ---
 center = st.columns([0.3, 0.4, 0.3])
 with center[1]:
-    with st.form(key="scrape_form"):
-        st.markdown(f"""
-            <style>
-                .custom-start-btn {{
-                    background-color: #ef4444;
-                    border: 1px solid #f87171;
-                    border-radius: 8px;
-                    color: white;
-                    width: 100%;
-                    font-weight: bold;
-                    padding: 0.75em 0;
-                    transition: background-color 0.3s ease;
-                    text-align: center;
-                    cursor: pointer;
-                    font-size: 1rem;
-                }}
-                .custom-start-btn:hover {{
-                    background-color: #dc2626;
-                }}
-                button[type=submit] {{
-                    display: none;
-                }}
-            </style>
-            <button class='custom-start-btn' onclick="document.querySelector('form button[type=submit]').click(); return false;">
-                {text['start']}
-            </button>
-        """, unsafe_allow_html=True)
+    st.markdown(f"""
+        <style>
+            .custom-start-btn {{
+                background-color: #ef4444;
+                border: 1px solid #f87171;
+                border-radius: 8px;
+                color: white;
+                width: 100%;
+                font-weight: bold;
+                padding: 0.75em 0;
+                transition: background-color 0.3s ease;
+                text-align: center;
+                cursor: pointer;
+                font-size: 1rem;
+            }}
+            .custom-start-btn:hover {{
+                background-color: #dc2626;
+            }}
+        </style>
+    """, unsafe_allow_html=True)
 
-        submitted = st.form_submit_button(" ")
+    if st.button(text["start"]):
+        if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
+            payload = {
+                "cookie": cookie,
+                "search_url": search_url,
+                "lead_count": lead_count,
+                "notify_email": notify_email
+            }
+            try:
+                res = requests.post("https://n8n2.bgroup.com.ar/webhook-test/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
+                if res.status_code == 200:
+                    st.success(text["success"])
+                else:
+                    st.error(f"❌ Error {res.status_code}")
+            except Exception as e:
+                st.error(f"❌ {str(e)}")
+        else:
+            st.warning(text["error"])
 
         if submitted:
             if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
