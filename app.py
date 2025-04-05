@@ -89,11 +89,12 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Cambiar idioma si se hizo clic
-query_params = st.experimental_get_query_params()
+# Detectar idioma desde parámetros
+query_params = st.query_params
 if "set_lang" in query_params:
-    st.session_state.lang = query_params["set_lang"][0]
-    st.experimental_set_query_params()  # Limpiar URL
+    st.session_state.lang = query_params["set_lang"]
+    st.query_params.clear()
+    st.rerun()
 
 lang = st.session_state.lang
 
