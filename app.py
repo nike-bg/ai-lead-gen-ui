@@ -47,8 +47,7 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = True  # For demo purposes
 if "username" not in st.session_state:
     st.session_state.username = "nico"
-if "auth_method" not in st.session_state:
-    st.session_state.auth_method = "manual"
+
 
 lang = st.session_state.lang
 text = T[lang]
