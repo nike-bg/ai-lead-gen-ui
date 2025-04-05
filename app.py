@@ -3,229 +3,144 @@ import requests
 import os
 from dotenv import load_dotenv
 
-st.set_page_config(page_title="AI Lead Gen UI", page_icon="🧠")
-
-# Cargar variables desde .env o desde secrets en Streamlit Cloud
+st.set_page_config(page_title="LinkedIn Scraper", page_icon="🔎")
 load_dotenv()
 
-# Usuarios autorizados desde entorno
-USERS = {
-    os.getenv("USER_NICO"): os.getenv("PASS_NICO"),
-    os.getenv("USER_MATI"): os.getenv("PASS_MATI"),
-}
-
-# Traducciones
+# --- Traducciones ---
 T = {
     "es": {
-        "welcome": "Bienvenido,",
-        "title": "🧠 Generador de Leads con IA",
-        "subtitle": "📈 Parámetros de búsqueda de leads",  # Agregar este campo
-        "cookie": "🔐 Cookie de sesión de LinkedIn Sales Navigator",
-        "url": "🔗 URL de búsqueda de LinkedIn Sales Navigator",
-        "count": "📊 Cantidad de leads a scrapear",
-        "email": "📧 Email para recibir los leads",
-        "start": "🚀 Iniciar scraping",
-        "logout": "🚪 Cerrar sesión",
-        "login_title": "🔐 Inicia sesión",
-        "user": "Usuario",
-        "pass": "Contraseña",
-        "login_btn": "Ingresar",
-        "login_error": "❌ Usuario o contraseña incorrectos.",
-        "fields_warning": "Por favor, completa todos los campos.",
-        "sending": "Enviando datos al webhook de n8n...",
-        "success": "✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.",
-        "fail": "❌ Falló la conexión:",
+        "title": "LinkedIn Sales Navigator Scraper",
+        "subtitle": "Conexión a tu cuenta de LinkedIn",
+        "auth_method": "Elegí cómo obtener tu cookie de LinkedIn",
+        "auto": "Recuperación automática",
+        "manual": "Ingreso manual",
+        "cookie": "Pegá tu cookie de sesión de LinkedIn aquí",
+        "url": "URL de búsqueda de Sales Navigator",
+        "count": "Cantidad de leads",
+        "email": "Dirección de email",
+        "start": "Iniciar scraping",
+        "welcome": "Bienvenido",
+        "success": "✅ Scraping iniciado correctamente. Recibirás un mail con los resultados.",
+        "error": "❌ Por favor completá todos los campos requeridos."
     },
     "en": {
-        "welcome": "Welcome,",
-        "title": "🧠 AI-Powered Lead Generator",
-        "subtitle": "📈 Lead search parameters",  # Agregar este campo
-        "cookie": "🔐 LinkedIn Sales Navigator session cookie",
-        "url": "🔗 LinkedIn Sales Navigator search URL",
-        "count": "📊 Number of leads to scrape",
-        "email": "📧 Email to receive the leads",
-        "start": "🚀 Start scraping",
-        "logout": "🚪 Log out",
-        "login_title": "🔐 Log in",
-        "user": "Username",
-        "pass": "Password",
-        "login_btn": "Log in",
-        "login_error": "❌ Invalid username or password.",
-        "fields_warning": "Please complete all fields.",
-        "sending": "Sending data to n8n webhook...",
-        "success": "✅ Scraping started successfully. You’ll get an email once it’s done.",
-        "fail": "❌ Connection failed:",
+        "title": "LinkedIn Sales Navigator Scraper",
+        "subtitle": "LinkedIn Account Connection",
+        "auth_method": "Choose LinkedIn Cookie Retrieval Method",
+        "auto": "Automatic Retrieval",
+        "manual": "Manual Input",
+        "cookie": "Paste your LinkedIn session cookie here",
+        "url": "Sales Navigator Search URL",
+        "count": "Number of Leads",
+        "email": "Email Address",
+        "start": "Start Scraping",
+        "welcome": "Welcome",
+        "success": "✅ Scraping started successfully. You'll receive an email with the results.",
+        "error": "❌ Please fill in all required fields."
     }
 }
 
-# Idioma por defecto
+# --- Estado inicial ---
 if "lang" not in st.session_state:
-    st.session_state.lang = "es"
+    st.session_state.lang = "en"
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = True  # For demo purposes
+if "username" not in st.session_state:
+    st.session_state.username = "nico"
+if "auth_method" not in st.session_state:
+    st.session_state.auth_method = "manual"
 
-# Estilo solo para los botones de las banderas (sin bordes)
+lang = st.session_state.lang
+text = T[lang]
+
+# --- Estilos ---
 st.markdown("""
     <style>
-    .lang-flag button {
-        border: none !important;
-        background-color: transparent !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    .lang-flag button:focus {
-        outline: none !important;
-    }
-
-    /* Restablecer borde en el botón de iniciar scraping */
-    div.stButton > button {
-        border: 1px solid #444; /* Borde normal para el botón de scraping */
-    }
+        .flag-btn button {
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            padding: 0 6px 0 0 !important;
+        }
+        .welcome {
+            text-align: right;
+            font-size: 1em;
+            color: #facc15;
+            margin-top: 1em;
+        }
+        .start-btn button {
+            background-color: #ef4444 !important;
+            color: white !important;
+            width: 100%;
+            font-weight: bold;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# Banderas como botones Streamlit (sin recarga de página ni logout)
-col1, col2, _ = st.columns([0.05, 0.05, 0.9])
+# --- Selector de idioma ---
+col1, col2, col3 = st.columns([0.05, 0.05, 0.9])
 with col1:
     with st.container():
-        st.markdown('<div class="lang-flag">', unsafe_allow_html=True)
+        st.markdown('<div class="flag-btn">', unsafe_allow_html=True)
         if st.button("🇪🇸", key="lang_es"):
             st.session_state.lang = "es"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 with col2:
     with st.container():
-        st.markdown('<div class="lang-flag">', unsafe_allow_html=True)
+        st.markdown('<div class="flag-btn">', unsafe_allow_html=True)
         if st.button("🇬🇧", key="lang_en"):
             st.session_state.lang = "en"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
-lang = st.session_state.lang
+# --- Mensaje de bienvenida ---
+capitalized_user = st.session_state.username.capitalize()
+st.markdown(f"<div class='welcome'>⚡ {text['welcome']}, <b>{capitalized_user}</b></div>", unsafe_allow_html=True)
 
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-if "username" not in st.session_state:
-    st.session_state.username = ""
+# --- Contenido principal ---
+st.markdown(f"<h1 style='margin-top: 1em'>{text['title']}</h1>", unsafe_allow_html=True)
+st.markdown(f"<h4 style='margin-top: -0.5em; color: gray'>{text['subtitle']}</h4>", unsafe_allow_html=True)
+st.markdown("<hr>", unsafe_allow_html=True)
 
-if not st.session_state.logged_in:
-    st.title(T[lang]["login_title"])
+# --- Selector método de autenticación ---
+st.radio(text["auth_method"], options=["auto", "manual"], index=1,
+         format_func=lambda x: text["auto"] if x == "auto" else text["manual"],
+         key="auth_method")
 
-    with st.form("login_form", clear_on_submit=False):
-        username = st.text_input(T[lang]["user"])
-        password = st.text_input(T[lang]["pass"], type="password")
-        submitted = st.form_submit_button(T[lang]["login_btn"])
+# --- Campos del formulario ---
+cookie = ""
+if st.session_state.auth_method == "manual":
+    cookie = st.text_input(text["cookie"], type="password", key="cookie")
 
-    if submitted:
-        if username in USERS and USERS[username] == password:
-            st.session_state.username = username
-            st.session_state.set_login = True
-        else:
-            st.error(T[lang]["login_error"])
+search_url = st.text_input(text["url"], key="search_url")
+cols = st.columns(2)
+lead_count = cols[0].number_input(text["count"], min_value=1, max_value=500, value=100, key="lead_count")
+notify_email = cols[1].text_input(text["email"], key="notify_email")
 
-    if st.session_state.get("set_login"):
-        st.session_state.logged_in = True
-        st.session_state.set_login = False
-        st.rerun()
+st.markdown("<br>", unsafe_allow_html=True)
 
-if st.session_state.logged_in:
-    capitalized_user = st.session_state.username.capitalize()
-
-    st.markdown(f"""
-    <style>
-    @keyframes fadeIn {{
-      from {{ opacity: 0; transform: translateY(-10px); }}
-      to {{ opacity: 1; transform: translateY(0); }}
-    }}
-
-    @keyframes pulse {{
-      0% {{ transform: scale(1); }}
-      50% {{ transform: scale(1.15); }}
-      100% {{ transform: scale(1); }}
-    }}
-
-    .welcome {{
-        animation: fadeIn 1s ease-out forwards;
-        text-align: right;
-        font-size: 1em;
-        font-weight: 500;
-        margin-bottom: 1em;
-        color: #facc15;
-    }}
-
-    .welcome .icon {{
-        display: inline-block;
-        animation: pulse 1.5s infinite;
-        margin-right: 4px;
-    }}
-    </style>
-
-    <div class="welcome">
-        <span class="icon">⚡</span>{T[lang]["welcome"]} <b>{capitalized_user}</b>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.title(T[lang]["title"])
-    st.subheader(T[lang]["subtitle"])
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    session_cookie = st.text_input(T[lang]["cookie"], type="password")
-    search_url = st.text_input(T[lang]["url"])
-    lead_count = st.number_input(T[lang]["count"], min_value=1, max_value=500, value=50)
-    notify_email = st.text_input(T[lang]["email"])
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.markdown("""
-        <style>
-        div.stButton > button {
-            width: 100%;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    if st.button(T[lang]["start"]):
-        if session_cookie and search_url and notify_email:
-            st.info(T[lang]["sending"])
-
-            payload = {
-                "cookie": session_cookie,
-                "search_url": search_url,
-                "lead_count": lead_count,
-                "notify_email": notify_email
-            }
-
-            try:
-                # URL del Webhook de n8n
-                response = requests.post("https://n8n2.bgroup.com.ar/webhook-test/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
-                if response.status_code == 200:
-                    st.success(T[lang]["success"])
-                else:
-                    st.error(f"❌ Error: {response.status_code}")
-            except Exception as e:
-                st.error(f"{T[lang]['fail']} {e}")
-        else:
-            st.warning(T[lang]["fields_warning"])
-
-    st.markdown("---", unsafe_allow_html=True)
-    st.markdown(f"""
-        <div style="text-align: right; margin-top: 2em;">
-            <form action="?logout=true" method="get">
-                <button type="submit" style="
-                    background-color: #1f1f1f;
-                    color: white;
-                    border: 1px solid #444;
-                    padding: 8px 20px;
-                    font-size: 16px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                ">
-                    {T[lang]["logout"]}
-                </button>
-            </form>
-        </div>
-    """, unsafe_allow_html=True)
-
-    if st.query_params.get("logout") == "true":
-        st.session_state.logged_in = False
-        st.session_state.username = ""
-        st.rerun()
+# --- Botón de enviar ---
+center = st.columns([0.3, 0.4, 0.3])
+with center[1]:
+    with st.container():
+        st.markdown('<div class="start-btn">', unsafe_allow_html=True)
+        if st.button(text["start"]):
+            if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
+                payload = {
+                    "cookie": cookie,
+                    "search_url": search_url,
+                    "lead_count": lead_count,
+                    "notify_email": notify_email
+                }
+                try:
+                    res = requests.post("https://n8n2.bgroup.com.ar/webhook-test/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
+                    if res.status_code == 200:
+                        st.success(text["success"])
+                    else:
+                        st.error(f"❌ Error {res.status_code}")
+                except Exception as e:
+                    st.error(f"❌ {str(e)}")
+            else:
+                st.warning(text["error"])
+        st.markdown('</div>', unsafe_allow_html=True)
