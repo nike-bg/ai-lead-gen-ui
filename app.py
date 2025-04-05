@@ -27,7 +27,7 @@ if not st.session_state.logged_in:
     with st.form("login_form", clear_on_submit=False):
         username = st.text_input("Usuario")
         password = st.text_input("Contraseña", type="password")
-        submitted = st.form_submit_button("Ingresar")  # Enter también lo activa
+        submitted = st.form_submit_button("Ingresar")
 
     if submitted:
         if username in USERS and USERS[username] == password:
@@ -76,11 +76,31 @@ if st.session_state.logged_in:
         else:
             st.warning("Por favor, completá todos los campos.")
 
-    # --- Botón de logout abajo a la derecha, en una línea ---
-    st.markdown("---")
-    spacer1, spacer2, col_button = st.columns([6, 1, 1])
-    with col_button:
-        if st.button("🔒 Cerrar sesión"):
-            st.session_state.logged_in = False
-            st.session_state.username = ""
-            st.rerun()
+    # --- Botón de logout abajo a la derecha con HTML estilizado ---
+    st.markdown("---", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div style="text-align: right; margin-top: 2em;">
+            <form action="?logout=true" method="get">
+                <button type="submit" style="
+                    background-color: #1f1f1f;
+                    color: white;
+                    border: 1px solid #444;
+                    padding: 8px 20px;
+                    font-size: 16px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                ">
+                    🔒 Cerrar sesión
+                </button>
+            </form>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Detectar parámetro de logout en la URL
+    if st.query_params.get("logout") == "true":
+        st.session_state.logged_in = False
+        st.session_state.username = ""
+        st.rerun()
