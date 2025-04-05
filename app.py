@@ -154,14 +154,17 @@ with center[1]:
                 .custom-start-btn:hover {{
                     background-color: #dc2626;
                 }}
-                button[type=submit] {{
-                    display: none;
-                }}
+                button[type=submit] {
+    visibility: hidden;
+    height: 0;
+    padding: 0;
+    margin: 0;
+}}
             </style>
             <button class=\"custom-start-btn\" onclick=\"document.querySelector('button[type=submit]').click(); return false;\">{text["start"]}</button>
         """, unsafe_allow_html=True)
 
-        submitted = st.form_submit_button(text["start"])
+        submitted = st.form_submit_button(" ")
 
         if submitted:
             if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
