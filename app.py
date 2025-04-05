@@ -159,7 +159,7 @@ with center[1]:
         </style>
     """, unsafe_allow_html=True)
 
-    if st.button(text["start"]):
+if st.button(text["start"]):
     if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
         payload = {
             "cookie": cookie,
