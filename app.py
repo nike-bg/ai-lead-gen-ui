@@ -177,7 +177,7 @@ with center[1]:
             except Exception as e:
                 st.error(f"❌ {str(e)}")
         if st.session_state.get("scrape_attempted"):
-        st.toast(text["error"], icon="⚠️")
+    st.toast(text["error"], icon="⚠️")
             st.toast(text["error"], icon="⚠️")
     if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
         payload = {
