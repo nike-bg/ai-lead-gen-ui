@@ -176,5 +176,6 @@ with center[1]:
                     st.toast(f"❌ Error {res.status_code}", icon="❌")
             except Exception as e:
                 st.error(f"❌ {str(e)}")
-        if st.session_state.get("scrape_attempted"):
+        # Mostrar advertencia si se intentó hacer scraping y faltan campos
+if st.session_state.get("scrape_attempted"):
     st.toast(text["error"], icon="⚠️")
