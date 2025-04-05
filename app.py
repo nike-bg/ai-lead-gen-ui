@@ -208,7 +208,7 @@ else:
         st.success("Logout successful!")
         st.rerun()  # Recargar la página para reflejar el estado de desconexión
 
-    # Aplicar estilo para cambiar el color del botón a transparente
+    # Aplicar estilo para cambiar el color del botón y hacerlo igual al de "Start Scraping"
     st.markdown("""
         <style>
             .stButton > button {
@@ -218,8 +218,8 @@ else:
                 font-size: 16px;
                 font-weight: bold;
                 background-color: transparent; /* Fondo transparente */
-                color: #000000; /* Texto negro */
-                border: 2px solid #000000; /* Borde negro */
+                color: #ffffff; /* Texto blanco */
+                border: 2px solid #ef4444; /* Borde rojo */
                 border-radius: 8px;
                 padding: 0.75em 2em;
                 transition: background-color 0.3s ease;
