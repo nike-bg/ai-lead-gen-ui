@@ -73,8 +73,11 @@ def is_valid_email(email):
 
 # --- Login ---
 if not st.session_state.logged_in:
-    # Título personalizado: "I was waiting for you..."
-    st.markdown(f"<h1 style='text-align: center;'>I was waiting for you...</h1>", unsafe_allow_html=True)
+    # Título personalizado: "TARS"
+    st.markdown(f"<h1 style='text-align: center;'>TARS</h1>", unsafe_allow_html=True)
+
+    # Subtítulo personalizado: "Totally Awesome Revenue Source"
+    st.markdown(f"<h3 style='text-align: center;'>Totally Awesome Revenue Source</h3>", unsafe_allow_html=True)
 
     # Agregar más espacio entre el título y los campos de login (agregar más líneas en blanco)
     st.markdown("<br>" * 3, unsafe_allow_html=True)  # Se añaden 3 líneas de espacio
