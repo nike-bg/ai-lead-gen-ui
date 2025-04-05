@@ -56,25 +56,32 @@ subtitle = text['subtitle']
 # --- Estilos ---
 st.markdown("""
     <style>
-        .flag-btn button {
-            border: none !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            padding: 0 6px 0 0 !important;
-        }
-        .welcome {
-            text-align: right;
-            font-size: 1em;
-            color: #facc15;
-            margin-top: 1em;
-        }
-        .start-btn button {
-            background-color: #ef4444 !important;
-            color: white !important;
-            width: 100%;
-            font-weight: bold;
-        }
-    </style>
+    .flag-btn button {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 6px 0 0 !important;
+    }
+    .welcome {
+        text-align: right;
+        font-size: 1em;
+        color: #facc15;
+        margin-top: 1em;
+    }
+    .start-btn button {
+        background-color: #ef4444 !important;
+        border: 1px solid #f87171 !important;
+        border-radius: 8px !important;
+        color: white !important;
+        width: 100%;
+        font-weight: bold;
+        padding: 0.75em 0 !important;
+        transition: background-color 0.3s ease;
+    }
+    .start-btn button:hover {
+        background-color: #dc2626 !important;
+    }
+</style>
 """, unsafe_allow_html=True)
 
 # --- Selector de idioma ---
