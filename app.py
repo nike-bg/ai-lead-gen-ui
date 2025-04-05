@@ -156,14 +156,21 @@ else:
                     text-align: center;
                     cursor: pointer;
                     font-size: 1rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }}
                 .custom-start-btn:hover {{
                     background-color: #dc2626;
                 }}
+                .custom-start-btn i {{
+                    margin-right: 10px;
+                }}
             </style>
         """, unsafe_allow_html=True)
 
-    if st.button(text["start"]):
+    if st.button(f"<i class='fas fa-rocket'></i> {text['start']}", key="start_scraping", help=text["start"], 
+                 use_container_width=True, on_click=None):
         if search_url and notify_email and is_valid_email(notify_email) and (cookie or st.session_state.auth_method == "auto"):
             payload = {
                 "cookie": cookie,
