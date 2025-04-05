@@ -79,17 +79,15 @@ if not st.session_state.logged_in:
     user_mati = os.getenv("USER_MATI")
     pass_mati = os.getenv("PASS_MATI")
     
-    # Crear un botón invisible que se activará cuando el usuario presione Enter
-    submit_button = st.empty()  # Espacio vacío para crear el botón invisible
-    
-    if st.button("Login") or username_input and password_input:
+    if st.button("Login"):
         # Validación de usuario y contraseña
         if (username_input == user_nico and password_input == pass_nico) or \
            (username_input == user_mati and password_input == pass_mati):
             st.session_state.logged_in = True
             st.session_state.username = username_input
+            st.session_state.password = password_input
             st.success("Login successful!")
-            st.stop()  # Detener la ejecución para que se actualice la interfaz
+            st.experimental_rerun()  # Recargar la página para mostrar el contenido principal
         else:
             st.error(text["login_error"])
 else:
