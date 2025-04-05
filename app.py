@@ -76,6 +76,9 @@ if not st.session_state.logged_in:
     # Título personalizado: "I was waiting for you..."
     st.markdown(f"<h1 style='text-align: center;'>I was waiting for you...</h1>", unsafe_allow_html=True)
 
+    # Agregar más espacio entre el título y los campos de login (agregar más líneas en blanco)
+    st.markdown("<br>" * 3, unsafe_allow_html=True)  # Se añaden 3 líneas de espacio
+
     # Centrar el formulario de login y darle espacio
     login_center = st.columns([1, 3, 1])  # Tres columnas, donde la del medio tiene más espacio
     with login_center[1]:
