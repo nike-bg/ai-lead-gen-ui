@@ -62,43 +62,42 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# Estilo visual de botones de idioma
+# --- Estilo y ubicación de banderas arriba a la izquierda ---
 st.markdown("""
     <style>
-    div[data-testid="stHorizontalBlock"] > div {
-        gap: 0.5rem !important;
-    }
-    div[data-testid="stHorizontalBlock"] button {
+    .flag-button {
         background: none;
         border: none;
         font-size: 24px;
         cursor: pointer;
+        padding: 0;
+        margin-right: 10px;
     }
-    div[data-testid="stHorizontalBlock"] button:hover {
+    .flag-button:hover {
         transform: scale(1.1);
     }
     </style>
 """, unsafe_allow_html=True)
 
-col1, col2 = st.columns([0.1, 0.1])
-with col1:
-    if st.button("🇪🇸", use_container_width=True):
-        st.session_state.lang = "es"
-        st.rerun()
-with col2:
-    if st.button("🇬🇧", use_container_width=True):
-        st.session_state.lang = "en"
-        st.rerun()
+with st.container():
+    col1, col2, _ = st.columns([0.05, 0.05, 0.9])
+    with col1:
+        if st.button("🇪🇸", key="es", help="Español"):
+            st.session_state.lang = "es"
+            st.rerun()
+    with col2:
+        if st.button("🇬🇧", key="en", help="English"):
+            st.session_state.lang = "en"
+            st.rerun()
 
 lang = st.session_state.lang
 
-# Inicializar sesión
+# --- Login ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "username" not in st.session_state:
     st.session_state.username = ""
 
-# --- LOGIN ---
 if not st.session_state.logged_in:
     st.title(T[lang]["login_title"])
 
