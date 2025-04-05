@@ -79,8 +79,8 @@ if not st.session_state.logged_in:
     # Subtítulo personalizado: "Totally Awesome Revenue Source" (más chico y con transparencia, entre paréntesis)
     st.markdown(f"<h3 style='text-align: center; font-size: 1em; opacity: 0.6;'>(Totally Awesome Revenue Source)</h3>", unsafe_allow_html=True)
 
-    # Reducir el espacio entre el título y el subtítulo (agregar solo 1 línea de espacio)
-    st.markdown("<br>", unsafe_allow_html=True)
+    # Reducir el espacio entre el título y el subtítulo (sin agregar <br>)
+    st.markdown("<style>h1, h3 { margin-bottom: 0; }</style>", unsafe_allow_html=True)
 
     # Centrar el formulario de login y darle espacio
     login_center = st.columns([1, 3, 1])  # Tres columnas, donde la del medio tiene más espacio
