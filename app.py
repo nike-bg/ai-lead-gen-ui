@@ -65,12 +65,15 @@ if "lang" not in st.session_state:
 # Estilo para eliminar bordes de botones de banderas
 st.markdown("""
     <style>
-    div[data-testid="column"] button {
+    button[kind="secondary"] {
         border: none !important;
         background-color: transparent !important;
         box-shadow: none !important;
         padding: 0 !important;
-        height: auto !important;
+        margin: 0 !important;
+    }
+    button:focus {
+        outline: none !important;
     }
     </style>
 """, unsafe_allow_html=True)
