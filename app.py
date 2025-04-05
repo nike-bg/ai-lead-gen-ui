@@ -65,36 +65,30 @@ if "lang" not in st.session_state:
 # Estilo visual de botones de idioma
 st.markdown("""
     <style>
-    .lang-buttons {
-        display: flex;
-        gap: 6px;
-        margin-bottom: 1em;
+    div[data-testid="stHorizontalBlock"] > div {
+        gap: 0.5rem !important;
     }
-    .lang-buttons button {
+    div[data-testid="stHorizontalBlock"] button {
         background: none;
         border: none;
         font-size: 24px;
         cursor: pointer;
-        padding: 0 6px;
     }
-    .lang-buttons button:hover {
+    div[data-testid="stHorizontalBlock"] button:hover {
         transform: scale(1.1);
     }
     </style>
-    <div class="lang-buttons">
-        <form action="" method="get">
-            <button name="set_lang" value="es" type="submit">🇪🇸</button>
-            <button name="set_lang" value="en" type="submit">🇬🇧</button>
-        </form>
-    </div>
 """, unsafe_allow_html=True)
 
-# Detectar idioma desde parámetros
-query_params = st.query_params
-if "set_lang" in query_params:
-    st.session_state.lang = query_params["set_lang"]
-    st.query_params.clear()
-    st.rerun()
+col1, col2 = st.columns([0.1, 0.1])
+with col1:
+    if st.button("🇪🇸", use_container_width=True):
+        st.session_state.lang = "es"
+        st.rerun()
+with col2:
+    if st.button("🇬🇧", use_container_width=True):
+        st.session_state.lang = "en"
+        st.rerun()
 
 lang = st.session_state.lang
 
