@@ -20,8 +20,8 @@ T = {
         "email": "Dirección de email",
         "start": "Iniciar scraping",
         "welcome": "Bienvenido",
-        "success": "✅ Scraping iniciado correctamente. Recibirás un mail con los resultados.",
-        "error": "❌ Por favor completá todos los campos requeridos."
+        "success": "Scraping iniciado correctamente. Recibirás un mail con los resultados.",
+        "error": "Por favor completá todos los campos requeridos."
     },
     "en": {
         "title": "LinkedIn Sales Navigator Scraper",
