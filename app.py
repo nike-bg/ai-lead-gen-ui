@@ -103,7 +103,7 @@ st.markdown(f"<h1 style='margin-top: 1em'>{text['title']}</h1>", unsafe_allow_ht
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
-st.markdown(f"<h4 style='margin-bottom: 0.2em; color: white'>%s</h4>" % subtitle", unsafe_allow_html=True)
+st.markdown(f"f"<h4 style='margin-bottom: 0.2em; color: white'>{subtitle}</h4>"", unsafe_allow_html=True)
 
 # --- Selector método de autenticación ---
 st.radio(text["auth_method"], options=["auto", "manual"], index=1,
