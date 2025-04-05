@@ -22,7 +22,7 @@ if "username" not in st.session_state:
 
 # --- LOGIN ---
 if not st.session_state.logged_in:
-    st.title("🔐 Iniciá sesión")
+    st.title("🔐 Inicia sesión")  # ← Corregido acá
     username = st.text_input("Usuario")
     password = st.text_input("Contraseña", type="password")
 
@@ -31,11 +31,10 @@ if not st.session_state.logged_in:
     if login_button:
         if username in USERS and USERS[username] == password:
             st.session_state.username = username
-            st.session_state.set_login = True  # bandera para forzar rerun seguro
+            st.session_state.set_login = True
         else:
             st.error("❌ Usuario o contraseña incorrectos.")
 
-    # Usar la bandera para activar login + recarga de pantalla
     if st.session_state.get("set_login"):
         st.session_state.logged_in = True
         st.session_state.set_login = False
@@ -45,6 +44,12 @@ if not st.session_state.logged_in:
 if st.session_state.logged_in:
     st.title("🔍 AI-Powered Lead Generator")
     st.caption(f"Sesión activa como: {st.session_state.username}")
+
+    # Botón de cerrar sesión
+    if st.button("Cerrar sesión 🔒"):
+        st.session_state.logged_in = False
+        st.session_state.username = ""
+        st.rerun()
 
     st.subheader("📥 Parámetros de búsqueda de leads")
 
