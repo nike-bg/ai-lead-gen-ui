@@ -26,6 +26,7 @@ T = {
         "error_email": "Por favor, ingresa un correo electrónico válido.",
         "error": "Por favor completá todos los campos requeridos.",
         "login_error": "Usuario o contraseña incorrectos.",
+        "logout": "Cerrar sesión"
     },
     "en": {
         "title": "LinkedIn Sales Navigator Scraper",
@@ -42,6 +43,7 @@ T = {
         "error_email": "Please enter a valid email address.",
         "error": "Please fill in all required fields.",
         "login_error": "Incorrect username or password.",
+        "logout": "Logout"
     }
 }
 
@@ -163,7 +165,7 @@ else:
                 .custom-start-btn:hover {{
                     background-color: #dc2626;
                 }}
-                .custom-start-btn i {{
+                .custom-start-btn span {{
                     margin-right: 10px;
                 }}
             </style>
@@ -196,3 +198,12 @@ else:
 
     if st.session_state.get("scrape_attempted"):
         st.toast(text["error"], icon="⚠️")
+
+    # --- Botón de cerrar sesión ---
+    logout_button = st.button(text["logout"])
+    if logout_button:
+        st.session_state.logged_in = False
+        st.session_state.username = ""
+        st.session_state.password = ""
+        st.success("Logout successful!")
+        st.rerun()  # Recargar la página para reflejar el estado de desconexión
