@@ -3,7 +3,6 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# 🧠 Esto tiene que ir primero para evitar errores
 st.set_page_config(page_title="AI Lead Gen UI", page_icon="🧠")
 
 # Cargar variables desde .env o desde secrets en Streamlit Cloud
@@ -63,16 +62,38 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# Selector visual de idioma con banderas 🇪🇸 🇬🇧
-col_es, col_en, _ = st.columns([0.08, 0.08, 0.84])
-with col_es:
-    if st.button("🇪🇸", help="Español"):
-        st.session_state.lang = "es"
-        st.rerun()
-with col_en:
-    if st.button("🇬🇧", help="English"):
-        st.session_state.lang = "en"
-        st.rerun()
+# Estilo visual de botones de idioma
+st.markdown("""
+    <style>
+    .lang-buttons {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 1em;
+    }
+    .lang-buttons button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0 6px;
+    }
+    .lang-buttons button:hover {
+        transform: scale(1.1);
+    }
+    </style>
+    <div class="lang-buttons">
+        <form action="" method="get">
+            <button name="set_lang" value="es" type="submit">🇪🇸</button>
+            <button name="set_lang" value="en" type="submit">🇬🇧</button>
+        </form>
+    </div>
+""", unsafe_allow_html=True)
+
+# Cambiar idioma si se hizo clic
+query_params = st.experimental_get_query_params()
+if "set_lang" in query_params:
+    st.session_state.lang = query_params["set_lang"][0]
+    st.experimental_set_query_params()  # Limpiar URL
 
 lang = st.session_state.lang
 
@@ -107,7 +128,6 @@ if not st.session_state.logged_in:
 if st.session_state.logged_in:
     capitalized_user = st.session_state.username.capitalize()
 
-    # Bienvenida arriba a la derecha
     st.markdown(f"""
     <div style='text-align: right; font-size: 1em; color: #facc15; font-weight: 500; margin-bottom: 1em;'>
         {T[lang]["welcome"]} <b>{capitalized_user}</b>
@@ -160,7 +180,6 @@ if st.session_state.logged_in:
         else:
             st.warning(T[lang]["fields_warning"])
 
-    # Botón de logout abajo a la derecha
     st.markdown("---", unsafe_allow_html=True)
     st.markdown(f"""
         <div style="text-align: right; margin-top: 2em;">
