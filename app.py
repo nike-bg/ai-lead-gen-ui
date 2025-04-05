@@ -199,11 +199,33 @@ else:
     if st.session_state.get("scrape_attempted"):
         st.toast(text["error"], icon="⚠️")
 
-    # --- Botón de cerrar sesión ---
-    logout_button = st.button(text["logout"])
+    # --- Botón de cerrar sesión (aparece a la derecha y un poco más abajo) ---
+    logout_button = st.button(f"🚪 {text['logout']}", key="logout_button")
     if logout_button:
         st.session_state.logged_in = False
         st.session_state.username = ""
         st.session_state.password = ""
         st.success("Logout successful!")
         st.rerun()  # Recargar la página para reflejar el estado de desconexión
+
+    # Aplicar estilo para posicionar el botón a la derecha y un poco más abajo
+    st.markdown("""
+        <style>
+            .stButton > button {
+                position: absolute;
+                right: 20px;
+                bottom: 30px;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #ef4444;
+                color: white;
+                border: 1px solid #f87171;
+                border-radius: 8px;
+                padding: 0.75em 2em;
+                transition: background-color 0.3s ease;
+            }
+            .stButton > button:hover {
+                background-color: #dc2626;
+            }
+        </style>
+    """, unsafe_allow_html=True)
