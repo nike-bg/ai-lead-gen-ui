@@ -168,7 +168,10 @@ with center[1]:
             "notify_email": notify_email
         }
         try:
-            res = requests.post("https://n8n2.bgroup.com.ar/webhook-test/af7e35c5-164d-480a-9c17-4641afea11f2", json=payload)
+            res = requests.post(
+                "https://n8n2.bgroup.com.ar/webhook-test/af7e35c5-164d-480a-9c17-4641afea11f2",
+                json=payload
+            )
             if res.status_code == 200:
                 st.toast(text["success"], icon="✅")
             else:
