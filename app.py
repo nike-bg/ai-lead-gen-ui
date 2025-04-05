@@ -3,9 +3,10 @@ import requests
 import os
 from dotenv import load_dotenv
 
+# Cargar variables desde .env o desde secrets en Streamlit Cloud
 load_dotenv()
 
-# Usuarios válidos desde .env
+# Usuarios autorizados desde entorno
 USERS = {
     os.getenv("USER_NICO"): os.getenv("PASS_NICO"),
     os.getenv("USER_MATI"): os.getenv("PASS_MATI"),
@@ -13,26 +14,30 @@ USERS = {
 
 st.set_page_config(page_title="AI Lead Gen UI", page_icon="🧠")
 
-# Inicializar variable de sesión si no existe
+# Inicializar estado de sesión si es necesario
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
-# Si NO está logueado, mostrar login
+# --- LOGIN ---
 if not st.session_state.logged_in:
     st.title("🔐 Iniciá sesión")
     username = st.text_input("Usuario")
     password = st.text_input("Contraseña", type="password")
-    
+
     if st.button("Ingresar"):
         if username in USERS and USERS[username] == password:
-            st.session_state.logged_in = True
             st.session_state.username = username
-            st.success(f"✅ Bienvenido, {username}")
-            st.experimental_rerun()  # 🔁 Recarga para ocultar login y mostrar la app
+            st.session_state.set_login = True  # bandera para hacer rerun seguro
         else:
             st.error("❌ Usuario o contraseña incorrectos.")
 
-# Si ya está logueado, mostrar app
+    # Si la bandera de login está activada, hacemos login + rerun
+    if st.session_state.get("set_login"):
+        st.session_state.logged_in = True
+        st.session_state.set_login = False
+        st.experimental_rerun()
+
+# --- APP PRINCIPAL ---
 if st.session_state.logged_in:
     st.title("🔍 AI-Powered Lead Generator")
     st.caption(f"Sesión activa como: {st.session_state.username}")
@@ -56,7 +61,7 @@ if st.session_state.logged_in:
             }
 
             try:
-                # ⚠️ Reemplazar con tu webhook real
+                # ⚠️ Reemplazá esta URL por tu webhook real
                 response = requests.post("https://TU_WEBHOOK_N8N.com/webhook/lead-scraper", json=payload)
                 if response.status_code == 200:
                     st.success("✅ Scraping iniciado correctamente. Vas a recibir un mail cuando termine.")
