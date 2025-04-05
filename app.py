@@ -62,7 +62,7 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# Banderas sin bordes con HTML
+# Banderas sin bordes con HTML usando <a href> en lugar de onclick
 st.markdown("""
     <style>
     .lang-container {
@@ -73,6 +73,7 @@ st.markdown("""
     }
     .lang-flag {
         font-size: 24px;
+        text-decoration: none;
         cursor: pointer;
         transition: transform 0.2s ease;
     }
@@ -81,8 +82,8 @@ st.markdown("""
     }
     </style>
     <div class="lang-container">
-        <span class="lang-flag" onclick="window.location.search='?lang=es'">🇪🇸</span>
-        <span class="lang-flag" onclick="window.location.search='?lang=en'">🇬🇧</span>
+        <a class="lang-flag" href="?lang=es">🇪🇸</a>
+        <a class="lang-flag" href="?lang=en">🇬🇧</a>
     </div>
 """, unsafe_allow_html=True)
 
