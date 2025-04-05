@@ -43,8 +43,15 @@ if not st.session_state.logged_in:
 
 # --- APP PRINCIPAL ---
 if st.session_state.logged_in:
+    # Mostrar usuario arriba a la derecha
+    st.markdown(f"""
+    <div style='text-align: right; font-size: 0.9em; color: #bbb;'>
+        🔐 Logueado como: <b>{st.session_state.username}</b>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Título principal
     st.title("🔍 AI-Powered Lead Generator")
-    st.caption(f"Sesión activa como: {st.session_state.username}")
 
     st.subheader("📥 Parámetros de búsqueda de leads")
 
