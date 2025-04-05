@@ -75,17 +75,14 @@ if not st.session_state.logged_in:
     username_input = st.text_input("Username", key="username_input")
     password_input = st.text_input("Password", type="password", key="password_input")
 
-    # Crear un botón de login
-    login_button = st.button("Login")
-
     # Cargar las credenciales desde el archivo .env
     user_nico = os.getenv("USER_NICO")
     pass_nico = os.getenv("PASS_NICO")
     user_mati = os.getenv("USER_MATI")
     pass_mati = os.getenv("PASS_MATI")
 
-    # Lógica del login al hacer clic o presionar "Enter"
-    if login_button or (username_input and password_input):  # Si se presiona el botón o se ha ingresado username y password
+    # Lógica del login
+    if username_input and password_input:  # Si ambos campos tienen texto, ejecuta el login
         # Validación de usuario y contraseña
         if (username_input == user_nico and password_input == pass_nico) or \
            (username_input == user_mati and password_input == pass_mati):
@@ -93,7 +90,20 @@ if not st.session_state.logged_in:
             st.session_state.username = username_input
             st.session_state.password = password_input
             st.success("Login successful!")
-            st.stop()  # Detener la ejecución y actualizar la interfaz
+            st.rerun()  # Recargar la página para mostrar el contenido principal
+        else:
+            st.error(text["login_error"])
+
+    # Botón de login (para casos donde el usuario haga clic)
+    login_button = st.button("Login")
+    if login_button:  # Si se hace clic en el botón, ejecutar la misma lógica de login
+        if (username_input == user_nico and password_input == pass_nico) or \
+           (username_input == user_mati and password_input == pass_mati):
+            st.session_state.logged_in = True
+            st.session_state.username = username_input
+            st.session_state.password = password_input
+            st.success("Login successful!")
+            st.rerun()  # Recargar la página para mostrar el contenido principal
         else:
             st.error(text["login_error"])
 else:
