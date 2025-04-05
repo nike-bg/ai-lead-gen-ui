@@ -3,6 +3,9 @@ import requests
 import os
 from dotenv import load_dotenv
 
+# 🧠 Esto tiene que ir primero para evitar errores
+st.set_page_config(page_title="AI Lead Gen UI", page_icon="🧠")
+
 # Cargar variables desde .env o desde secrets en Streamlit Cloud
 load_dotenv()
 
@@ -62,8 +65,6 @@ if "lang" not in st.session_state:
 
 lang = st.selectbox("🌐 Idioma / Language", ["es", "en"], index=0 if st.session_state.lang == "es" else 1)
 st.session_state.lang = lang
-
-st.set_page_config(page_title="AI Lead Gen UI", page_icon="🧠")
 
 # Inicializar sesión
 if "logged_in" not in st.session_state:
