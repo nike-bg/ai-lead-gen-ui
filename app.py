@@ -84,7 +84,7 @@ if not st.session_state.logged_in:
     user_mati = os.getenv("USER_MATI")
     pass_mati = os.getenv("PASS_MATI")
 
-    # Lógica del botón de login
+    # Lógica del login al hacer clic o presionar "Enter"
     if login_button or (username_input and password_input):  # Si se presiona el botón o se ha ingresado username y password
         # Validación de usuario y contraseña
         if (username_input == user_nico and password_input == pass_nico) or \
