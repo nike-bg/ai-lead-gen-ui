@@ -62,23 +62,27 @@ T = {
 if "lang" not in st.session_state:
     st.session_state.lang = "es"
 
-# --- Estilo y ubicación de banderas arriba a la izquierda ---
+# --- Estilo limpio: solo banderas ---
 st.markdown("""
     <style>
     .flag-button {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 0;
+        background: transparent !important;
+        border: none !important;
+        font-size: 24px !important;
+        padding: 0 !important;
         margin-right: 10px;
+        box-shadow: none !important;
     }
     .flag-button:hover {
         transform: scale(1.1);
     }
+    button[title="Submit"] {
+        all: unset !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
+# Banderas alineadas bien a la izquierda
 with st.container():
     col1, col2, _ = st.columns([0.05, 0.05, 0.9])
     with col1:
@@ -92,7 +96,7 @@ with st.container():
 
 lang = st.session_state.lang
 
-# --- Login ---
+# --- LOGIN ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "username" not in st.session_state:
