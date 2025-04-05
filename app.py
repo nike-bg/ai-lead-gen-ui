@@ -136,9 +136,33 @@ st.markdown("<br>", unsafe_allow_html=True)
 center = st.columns([0.3, 0.4, 0.3])
 with center[1]:
     with st.form(key="scrape_form"):
-        st.markdown('<div class="start-btn">', unsafe_allow_html=True)
-        submitted = st.form_submit_button(text["start"])
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('''
+            <style>
+                .custom-start-btn {
+                    background-color: #ef4444;
+                    border: 1px solid #f87171;
+                    border-radius: 8px;
+                    color: white;
+                    width: 100%;
+                    font-weight: bold;
+                    padding: 0.75em 0;
+                    transition: background-color 0.3s ease;
+                    text-align: center;
+                    cursor: pointer;
+                    font-size: 1rem;
+                }
+                .custom-start-btn:hover {
+                    background-color: #dc2626;
+                }
+            </style>
+            <button class="custom-start-btn" onclick="document.getElementById('hidden-submit').click(); return false;">''' + text["start"] + '''</button>
+            <script>
+                const hiddenSubmit = document.getElementById('hidden-submit');
+                if (hiddenSubmit) hiddenSubmit.style.display = 'none';
+            </script>
+        ''', unsafe_allow_html=True)
+
+        submitted = st.form_submit_button(text["start"], key="hidden-submit")
 
         if submitted:
             if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
