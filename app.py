@@ -43,14 +43,14 @@ if not st.session_state.logged_in:
 
 # --- APP PRINCIPAL ---
 if st.session_state.logged_in:
-    # Mostrar usuario arriba a la derecha
+    # Mostrar bienvenida arriba a la derecha con nombre capitalizado
+    capitalized_user = st.session_state.username.capitalize()
     st.markdown(f"""
-    <div style='text-align: right; font-size: 0.9em; color: #bbb;'>
-        🔐 Logueado como: <b>{st.session_state.username}</b>
+    <div style='text-align: right; font-size: 1em; color: #facc15; font-weight: 500; margin-bottom: 1em;'>
+        ⚡ Bienvenido, <b>{capitalized_user}</b>
     </div>
     """, unsafe_allow_html=True)
 
-    # Título principal
     st.title("🔍 AI-Powered Lead Generator")
 
     st.subheader("📥 Parámetros de búsqueda de leads")
