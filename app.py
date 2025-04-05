@@ -70,26 +70,30 @@ def is_valid_email(email):
 # --- Login ---
 if not st.session_state.logged_in:
     st.header("Login")
-    username_input = st.text_input("Username", key="username_input", on_change=None)
-    password_input = st.text_input("Password", type="password", key="password_input", on_change=None)
-    
-    # Cargar las credenciales desde el archivo .env
-    user_nico = os.getenv("USER_NICO")
-    pass_nico = os.getenv("PASS_NICO")
-    user_mati = os.getenv("USER_MATI")
-    pass_mati = os.getenv("PASS_MATI")
-    
-    if st.button("Login"):
-        # Validación de usuario y contraseña
-        if (username_input == user_nico and password_input == pass_nico) or \
-           (username_input == user_mati and password_input == pass_mati):
-            st.session_state.logged_in = True
-            st.session_state.username = username_input
-            st.session_state.password = password_input
-            st.success("Login successful!")
-            st.stop()  # Detener la ejecución y actualizar la interfaz
-        else:
-            st.error(text["login_error"])
+
+    # Usamos st.form para capturar el "Enter"
+    with st.form(key="login_form"):
+        username_input = st.text_input("Username", key="username_input")
+        password_input = st.text_input("Password", type="password", key="password_input")
+        login_button = st.form_submit_button("Login")  # Este botón se activa también con Enter
+        
+        # Cargar las credenciales desde el archivo .env
+        user_nico = os.getenv("USER_NICO")
+        pass_nico = os.getenv("PASS_NICO")
+        user_mati = os.getenv("USER_MATI")
+        pass_mati = os.getenv("PASS_MATI")
+
+        if login_button:  # Si se presiona el botón o "Enter" en los inputs
+            # Validación de usuario y contraseña
+            if (username_input == user_nico and password_input == pass_nico) or \
+               (username_input == user_mati and password_input == pass_mati):
+                st.session_state.logged_in = True
+                st.session_state.username = username_input
+                st.session_state.password = password_input
+                st.success("Login successful!")
+                st.experimental_rerun()  # Recargar la página para mostrar el contenido principal
+            else:
+                st.error(text["login_error"])
 else:
     # --- Mensaje de bienvenida ---
     capitalized_user = st.session_state.username.capitalize()
