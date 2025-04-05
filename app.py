@@ -99,8 +99,10 @@ st.markdown(f"<div class='welcome'>⚡ {text['welcome']}, <b>{capitalized_user}<
 
 # --- Contenido principal ---
 st.markdown(f"<h1 style='margin-top: 1em'>{text['title']}</h1>", unsafe_allow_html=True)
-st.markdown(f"<h4 style='margin-top: -0.5em; color: gray'>{text['subtitle']}</h4>", unsafe_allow_html=True)
+
 st.markdown("<hr>", unsafe_allow_html=True)
+
+st.markdown(f"<h4 style='margin-bottom: 0.2em; color: gray'>\{text['subtitle']}\</h4>", unsafe_allow_html=True)
 
 # --- Selector método de autenticación ---
 st.radio(text["auth_method"], options=["auto", "manual"], index=1,
