@@ -155,14 +155,21 @@ with center[1]:
                     background-color: #dc2626;
                 }
             </style>
-            <button class="custom-start-btn" onclick="document.getElementById('hidden-submit').click(); return false;">''' + text["start"] + '''</button>
+            <button class="custom-start-btn" onclick=\"document.querySelector('button[type=submit]').click(); return false;\">''' + text["start"] + '''</button>
             <script>
                 const hiddenSubmit = document.getElementById('hidden-submit');
                 if (hiddenSubmit) hiddenSubmit.style.display = 'none';
             </script>
         ''', unsafe_allow_html=True)
 
-        submitted = st.form_submit_button(text["start"], key="hidden-submit")
+        st.markdown("""
+<style>
+button[type=submit] {
+    display: none;
+}
+</style>
+""", unsafe_allow_html=True)
+submitted = st.form_submit_button(text["start"])
 
         if submitted:
             if search_url and notify_email and (cookie or st.session_state.auth_method == "auto"):
